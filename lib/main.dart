@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Shazam App',
       theme: ThemeData(
-        primaryColor: Colors.orangeAccent,
+        primaryColor: Color(0xffE38B29),
       ),
       home: const WelcomePage(),
     );
