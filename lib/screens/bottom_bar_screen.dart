@@ -1,6 +1,9 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:shazam_vin_project/screens/carousel_home_screen.dart';
 import 'package:shazam_vin_project/screens/welcome_screen.dart';
+
+import 'home_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -12,7 +15,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedScreen = 0;
   static final List<Widget> _screenOptions = <Widget>[
-    const Text('Home'),
+    MyCarouselPage(),
     const Text('Search'),
     const Text('Camera'),
     const Text('Friends'),

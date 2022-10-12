@@ -14,4 +14,19 @@ class StylesApp {
 
   // Style section
 
+  static TextStyle textStyle1 =
+      TextStyle(fontSize: 16, color: textColor1, fontWeight: FontWeight.w400);
+  static TextStyle textStyle2 =
+      TextStyle(fontSize: 16, color: textColor3, fontWeight: FontWeight.w300);
+  static TextStyle header1 =
+      TextStyle(fontSize: 26, color: textColor1, fontWeight: FontWeight.bold);
+
+  static TextStyle header2 =
+      TextStyle(fontSize: 26, color: textColor3, fontWeight: FontWeight.bold);
+
+  static TextStyle priceStyle =
+      TextStyle(fontSize: 16, color: primaryColor, fontWeight: FontWeight.bold);
+
+  static TextStyle searchStyle =
+      TextStyle(fontSize: 18, color: textColor1, fontWeight: FontWeight.w300);
 }
