@@ -32,11 +32,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
   // Dispose it means if we leave the page we don't want it to be active: otherwise there will be memory leak;
-  void dispose() {
-    pageController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   pageController.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
