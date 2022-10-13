@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shazam_vin_project/screens/welcome_screen.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Shazam App',
       theme: ThemeData(

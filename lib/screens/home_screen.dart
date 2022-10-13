@@ -1,52 +1,11 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shazam_vin_project/utils/app_styles.dart';
+import 'package:shazam_vin_project/utils/dimensions.dart';
 
-import '../utils/app_layout.dart';
-
-// class MyHomePage extends StatefulWidget {
-//   // const MyHomePage({Key? key}) : super(key: key);
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   late PageController _pageController;
-//   var activePage;
-//   List<String> images = [
-//     "./wines/wine_1.png",
-//     "./wines/wine_2.png",
-//     "./wines/wine_3.png",
-//     "./wines/wine_7.png",
-//     "./wines/wine_6.png"
-//   ];
-//   void initState() {
-//     super.initState();
-//     _pageController = PageController(viewportFraction: 0.8, initialPage: 1);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return PageView.builder(
-//       itemCount: images.length,
-//       pageSnapping: true,
-//       controller: _pageController,
-//       onPageChanged: (page) {
-//         setState(() {
-//           activePage = page;
-//         });
-//       },
-//       itemBuilder: (context, pagePosition) {
-//         return Container(
-//           margin: const EdgeInsets.all(10),
-//           child: Image.asset(images[pagePosition]),
-//         );
-//       },
-//     );
-//   }
-// }
+import '../data_models/models.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -56,105 +15,187 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // int _rating =1;
-  // Widget _starRating(int rating){
-  //
-  //
-  // }
-  Widget _blockOfContainerIcon(final size) {
-    return Container(
-      padding: const EdgeInsets.only(left: 16),
-      height: size.height * 0.3,
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: StylesApp.container1Color,
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  PageController pageController =
+      PageController(viewportFraction: 0.8, initialPage: 0);
+
+  var _currentPageValue = 0.0;
+  final double _scaleFactor = 0.8;
+  final double _height = Dimensions.firstMainContainer;
+  @override
+  void initState() {
+    super.initState();
+    pageController.addListener(() {
+      setState(() {
+        _currentPageValue = pageController.page!;
+        // print("Current value is " + _currentPageValue.toString());
+      });
+    });
+  }
+
+  @override
+  // Dispose it means if we leave the page we don't want it to be active: otherwise there will be memory leak;
+  void dispose() {
+    pageController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final wine = wines;
+    return Column(
+      children: [
+        Container(
+          height: Dimensions.firstMainContainer,
+          // color: Colors.red,
+          child: Stack(
             children: [
-              const Gap(20),
-              Text("Red Wine", style: StylesApp.header2),
-              const Gap(20),
-              const Text("\$250.0"),
-              const Gap(20),
-              Row(
-                children: [
-                  Icon(FluentSystemIcons.ic_fluent_star_filled,
-                      color: StylesApp.starColor),
-                  Icon(FluentSystemIcons.ic_fluent_star_filled,
-                      color: StylesApp.starColor),
-                  Icon(FluentSystemIcons.ic_fluent_star_filled,
-                      color: StylesApp.starColor),
-                  Icon(FluentSystemIcons.ic_fluent_star_filled,
-                      color: StylesApp.starColor),
-                  Icon(FluentSystemIcons.ic_fluent_star_filled,
-                      color: StylesApp.starColor),
-                ],
+              Container(
+                padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
+                color: Colors.orangeAccent,
+                height: Dimensions.secondMainContainer,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(Icons.menu, color: Colors.white),
+                        Gap(Dimensions.width10),
+                        const Text("Wine Shope",
+                            style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        Gap(Dimensions.width10),
+                        const Icon(Icons.shopping_cart, color: Colors.white)
+                      ],
+                    ),
+                    Gap(Dimensions.width10),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: StylesApp.container2Color,
+                          borderRadius: BorderRadius.circular(30)),
+                      padding:
+                          const EdgeInsets.only(left: 5, top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            FluentSystemIcons.ic_fluent_search_regular,
+                            color: StylesApp.textColor1,
+                          ),
+                          Gap(Dimensions.width10),
+                          Text("search", style: StylesApp.searchStyle),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const Gap(20),
-              Text("Made by France", style: StylesApp.textStyle2),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: wine.length,
+                  itemBuilder: (context, position) {
+                    final Wine winebrand = wine[position];
+                    return _buildPageItem(position, winebrand);
+                  },
+                ),
+              ),
             ],
           ),
-
-          Image.asset("./wines/wine_2.png"),
-          // Image section
-        ],
-      ),
+        ),
+        Gap(Dimensions.height10),
+        DotsIndicator(
+          dotsCount: wine.length,
+          position: _currentPageValue,
+          decorator: DotsDecorator(
+            activeColor: StylesApp.primaryColor,
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        ),
+      ],
     );
   }
 
-  _containerImage() {}
-  @override
-  Widget build(BuildContext context) {
-    final size = AppLayout.getSize(context);
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: [
-        Column(
+  Widget _buildPageItem(int index, final Wine winebrand) {
+    Matrix4 matrix = Matrix4.identity();
+    if (index == _currentPageValue.floor()) {
+      var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
+      var currTrans = _height * (1 - currScale) / 2;
+      matrix = Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, currTrans, 0);
+    } else if (index == _currentPageValue.floor() + 1) {
+      var currScale =
+          _scaleFactor + (_currentPageValue - index + 1) * (1 - _scaleFactor);
+      var currTrans = _height * (1 - currScale) / 2;
+      matrix = Matrix4.diagonal3Values(1, currScale, 1);
+      matrix = Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, currTrans, 0);
+    } else if (index == _currentPageValue.floor() - 1) {
+      var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
+      var currTrans = _height * (1 - currScale) / 2;
+      matrix = Matrix4.diagonal3Values(1, currScale, 1);
+      matrix = Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, currTrans, 0);
+    } else {
+      var currScale = 0.8;
+      matrix = Matrix4.diagonal3Values(1, currScale, 1)
+        ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
+    }
+    return Transform(
+      transform: matrix,
+      child: Container(
+        margin: EdgeInsets.only(
+          left: Dimensions.width5,
+          right: Dimensions.width5,
+          top: Dimensions.imgConMarginTop200,
+          bottom: Dimensions.height10,
+        ),
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 5,
+          top: 20,
+        ),
+        // height: 100,
+
+        // width: size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: StylesApp.container1Color,
+        ),
+        child: Row(
           children: [
-            const Gap(40),
-            Container(
-              width: size.width * 0.8,
-              margin: const EdgeInsets.only(left: 16, right: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: StylesApp.container2Color,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    FluentSystemIcons.ic_fluent_search_regular,
-                    color: StylesApp.textColor1,
-                  ),
-                  const Gap(12),
-                  Text(
-                    "search",
-                    style: StylesApp.searchStyle,
-                  ),
-                ],
-              ),
-            ),
-            const Gap(20),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _blockOfContainerIcon(size),
-                const Gap(20),
-                _blockOfContainerIcon(size),
-                const Gap(20),
-                _blockOfContainerIcon(size),
-                const Gap(20),
-                _blockOfContainerIcon(size),
-                const Gap(20),
-                _blockOfContainerIcon(size),
+                Text(winebrand.title, style: StylesApp.textStyle2),
+                // const SizedBox(height: 10),
+                Gap(Dimensions.height10),
+                Text(winebrand.price, style: StylesApp.priceStyle),
+                // const SizedBox(height: 10),
+                Gap(Dimensions.height10),
+                Row(
+                  children: [
+                    Wrap(
+                      children: List.generate(
+                        winebrand.rating,
+                        (index) => Icon(FluentSystemIcons.ic_fluent_star_filled,
+                            color: StylesApp.starColor, size: 15),
+                      ),
+                    ),
+                  ],
+                ),
+                Gap(Dimensions.height10),
+                Text("Made in ${winebrand.countryOfOrigin}",
+                    style: StylesApp.textStyle2),
               ],
             ),
+            Image.asset(winebrand.imagePath),
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }

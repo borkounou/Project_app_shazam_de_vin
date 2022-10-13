@@ -87,7 +87,7 @@ var wines = [
       description: 'Camofires + Grilled Cheese',
       imagePath: "./wines/wine_13.png",
       countryOfOrigin: 'France',
-      rating: 5),
+      rating: 2),
   Wine(
       price: '\$49',
       title: 'Bold Smooth Lush',

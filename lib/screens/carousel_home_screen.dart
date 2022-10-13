@@ -20,13 +20,6 @@ class _MyCarouselPageState extends State<MyCarouselPage> {
     _pageController = PageController(viewportFraction: 0.8, initialPage: 1);
   }
 
-  iconStart(int rating) {
-    int i = 0;
-    for (int i = 0; i < rating; i++) {
-      return const Icon(FluentSystemIcons.ic_fluent_star_filled);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);
@@ -101,17 +94,16 @@ class _MyCarouselPageState extends State<MyCarouselPage> {
                         const Gap(15),
                         Row(
                           children: [
-                            // iconStart(winebrand.rating),
-                            Icon(FluentSystemIcons.ic_fluent_star_filled,
-                                color: StylesApp.starColor),
-                            Icon(FluentSystemIcons.ic_fluent_star_filled,
-                                color: StylesApp.starColor),
-                            Icon(FluentSystemIcons.ic_fluent_star_filled,
-                                color: StylesApp.starColor),
-                            Icon(FluentSystemIcons.ic_fluent_star_filled,
-                                color: StylesApp.starColor),
-                            Icon(FluentSystemIcons.ic_fluent_star_filled,
-                                color: StylesApp.starColor),
+                            Wrap(
+                              children: List.generate(
+                                winebrand.rating,
+                                (index) => Icon(
+                                  FluentSystemIcons.ic_fluent_star_filled,
+                                  color: StylesApp.starColor,
+                                  size: 15,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         const Gap(15),
@@ -143,9 +135,7 @@ class _MyCarouselPageState extends State<MyCarouselPage> {
                   "See all",
                   style: StylesApp.textStyle1,
                 ),
-                onTap: () {
-                  print("Work");
-                },
+                onTap: () {},
               ),
             ],
           ),
