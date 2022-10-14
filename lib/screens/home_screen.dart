@@ -18,6 +18,9 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController pageController =
       PageController(viewportFraction: 0.8, initialPage: 0);
 
+  PageController pageController2 =
+      PageController(viewportFraction: 0.25, initialPage: 4);
+
   var _currentPageValue = 0.0;
   final double _scaleFactor = 0.8;
   final double _height = Dimensions.firstMainContainer;
@@ -115,6 +118,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(5.0)),
           ),
         ),
+        Gap(Dimensions.height20),
+        Container(
+          margin: const EdgeInsets.only(left: 5, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Popular",
+                style: StylesApp.header2,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(10),
+                child: Text("See all", style: StylesApp.textStyle3),
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
+        Gap(Dimensions.height5),
+        Container(
+          height: Dimensions.popularImageContainer,
+          margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+          child: PageView.builder(
+            controller: pageController2,
+            itemCount: wine.length,
+            itemBuilder: (context, position) {
+              final Wine winebrand = wine[position];
+              return Container(
+                margin: const EdgeInsets.only(top: 2, left: 5, right: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: StylesApp.container2Color,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(winebrand.imagePath),
+                    )),
+              );
+            },
+          ),
+        )
       ],
     );
   }
@@ -158,9 +201,6 @@ class _MyHomePageState extends State<MyHomePage> {
           right: 5,
           top: 20,
         ),
-        // height: 100,
-
-        // width: size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: StylesApp.container1Color,
@@ -189,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Gap(Dimensions.height10),
                 Text("Made in ${winebrand.countryOfOrigin}",
-                    style: StylesApp.textStyle2),
+                    style: StylesApp.textStyle4),
               ],
             ),
             Image.asset(winebrand.imagePath),

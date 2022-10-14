@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StylesApp {
   // Color section
   static Color primaryColor = const Color(0xffE38B29);
-  static Color container1Color = const Color(0xFFE8F9FD);
+  static Color container1Color = const Color(0xFFE8F9FD); //Color(0xFFE8F9FD);
   static Color starColor = const Color(0xFF14C38E);
   static Color textColor1 = const Color(0xFFE8F9FD);
   static Color textColor2 = const Color(0xFFF1A661);
@@ -17,7 +17,14 @@ class StylesApp {
   static TextStyle textStyle1 =
       TextStyle(fontSize: 16, color: textColor1, fontWeight: FontWeight.w400);
   static TextStyle textStyle2 =
-      TextStyle(fontSize: 16, color: textColor3, fontWeight: FontWeight.w300);
+      TextStyle(fontSize: 16, color: textColor3, fontWeight: FontWeight.w600);
+
+  static TextStyle textStyle3 =
+      TextStyle(fontSize: 16, color: textColor2, fontWeight: FontWeight.w400);
+
+  static TextStyle textStyle4 =
+      TextStyle(fontSize: 16, color: textColor3, fontWeight: FontWeight.w400);
+
   static TextStyle header1 =
       TextStyle(fontSize: 26, color: textColor1, fontWeight: FontWeight.bold);
 
