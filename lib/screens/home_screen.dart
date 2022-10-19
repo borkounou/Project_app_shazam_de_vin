@@ -1,11 +1,12 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:shazam_vin_project/utils/app_styles.dart';
 import 'package:shazam_vin_project/utils/dimensions.dart';
 
 import '../data_models/models.dart';
+import '../widgets/bigText.dart';
+import '../widgets/smallText.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -30,29 +31,32 @@ class _MyHomePageState extends State<MyHomePage> {
     pageController.addListener(() {
       setState(() {
         _currentPageValue = pageController.page!;
-        // print("Current value is " + _currentPageValue.toString());
       });
     });
   }
 
   // Dispose it means if we leave the page we don't want it to be active: otherwise there will be memory leak;
   // @override
-  // void dispose() {
-  //   pageController.dispose();
-  // }
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final wine = wines;
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: Dimensions.firstMainContainer,
-          // color: Colors.red,
           child: Stack(
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
+                padding: EdgeInsets.only(
+                  top: Dimensions.height30,
+                  left: Dimensions.width15,
+                  right: Dimensions.width15,
+                ),
                 color: Colors.orangeAccent,
                 height: Dimensions.secondMainContainer,
                 child: Column(
@@ -61,31 +65,38 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Icon(Icons.menu, color: Colors.white),
-                        Gap(Dimensions.width10),
-                        const Text("Wine Shope",
-                            style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        Gap(Dimensions.width10),
+                        SizedBox(width: Dimensions.width10),
+                        BigText(
+                            text: "Wine Shop",
+                            size: Dimensions.font26,
+                            color: Colors.white),
+                        SizedBox(width: Dimensions.width10),
                         const Icon(Icons.shopping_cart, color: Colors.white)
                       ],
                     ),
-                    Gap(Dimensions.width10),
+                    SizedBox(height: Dimensions.width20),
                     Container(
                       decoration: BoxDecoration(
                           color: StylesApp.container2Color,
-                          borderRadius: BorderRadius.circular(30)),
-                      padding:
-                          const EdgeInsets.only(left: 5, top: 10, bottom: 10),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius30)),
+                      padding: EdgeInsets.only(
+                        left: Dimensions.width5,
+                        top: Dimensions.height10,
+                        bottom: Dimensions.height10,
+                      ),
                       child: Row(
                         children: [
                           Icon(
                             FluentSystemIcons.ic_fluent_search_regular,
                             color: StylesApp.textColor1,
                           ),
-                          Gap(Dimensions.width10),
-                          Text("search", style: StylesApp.searchStyle),
+                          SizedBox(width: Dimensions.width10),
+                          SmallText(
+                            text: "search",
+                            color: Colors.white,
+                            size: Dimensions.iconSize16,
+                          )
                         ],
                       ),
                     ),
@@ -98,71 +109,138 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: pageController,
                   itemCount: wine.length,
                   itemBuilder: (context, position) {
-                    final Wine winebrand = wine[position];
-                    return _buildPageItem(position, winebrand);
+                    final Wine wineBrand = wine[position];
+                    return _buildPageItem(position, wineBrand);
                   },
                 ),
               ),
             ],
           ),
         ),
-        Gap(Dimensions.height10),
+        SizedBox(
+          height: Dimensions.height10,
+        ),
         DotsIndicator(
           dotsCount: wine.length,
           position: _currentPageValue,
           decorator: DotsDecorator(
             activeColor: StylesApp.primaryColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
+            size: Size.square(Dimensions.height10 - 1),
+            activeSize: Size(Dimensions.height20 - 2, Dimensions.height10 - 1),
             activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
+                borderRadius: BorderRadius.circular(Dimensions.radius15 / 5)),
           ),
         ),
-        Gap(Dimensions.height20),
+        SizedBox(height: Dimensions.height20),
         Container(
-          margin: const EdgeInsets.only(left: 5, right: 5),
+          margin: EdgeInsets.only(
+            left: Dimensions.width5,
+            right: Dimensions.width5,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Popular",
-                style: StylesApp.header2,
+              BigText(
+                text: "Popular",
+                color: StylesApp.primaryColor,
               ),
               InkWell(
-                borderRadius: BorderRadius.circular(10),
-                child: Text("See all", style: StylesApp.textStyle3),
+                borderRadius: BorderRadius.circular(Dimensions.height10),
+                child: SmallText(
+                  text: "See all",
+                  color: StylesApp.primaryColor,
+                  size: Dimensions.iconSize16,
+                ),
                 onTap: () {},
               ),
             ],
           ),
         ),
-        Gap(Dimensions.height5),
-        Container(
-          height: Dimensions.popularImageContainer,
-          margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-          child: PageView.builder(
-            controller: pageController2,
+        SizedBox(height: Dimensions.height5),
+        ListView.builder(
             itemCount: wine.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, position) {
-              final Wine winebrand = wine[position];
+              final Wine wineBrand = wine[position];
               return Container(
-                margin: const EdgeInsets.only(top: 2, left: 5, right: 5),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: StylesApp.container2Color,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(winebrand.imagePath),
-                    )),
+                margin: EdgeInsets.only(
+                  left: Dimensions.width20,
+                  right: Dimensions.width20,
+                  bottom: Dimensions.height20,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: Dimensions.popularImgWidth,
+                      height: Dimensions.popularImgHeight,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radius20),
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: AssetImage(
+                            wineBrand.imagePath,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: Dimensions.popularImgHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(Dimensions.radius20),
+                            bottomRight: Radius.circular(Dimensions.radius20),
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: Dimensions.width10,
+                              right: Dimensions.width10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              BigText(
+                                text: wineBrand.title,
+                                color: StylesApp.textColor3,
+                              ),
+                              SmallText(
+                                text: wineBrand.price,
+                                color: StylesApp.primaryColor,
+                                size: Dimensions.font16,
+                              ),
+                              // SizedBox(height: Dimensions.height10),
+                              Row(
+                                children: [
+                                  Wrap(
+                                    children: List.generate(
+                                      wineBrand.rating,
+                                      (index) => Icon(
+                                          FluentSystemIcons
+                                              .ic_fluent_star_filled,
+                                          color: StylesApp.starColor,
+                                          size: Dimensions.iconSize16),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               );
-            },
-          ),
-        )
+            }),
       ],
     );
   }
 
-  Widget _buildPageItem(int index, final Wine winebrand) {
+  Widget _buildPageItem(int index, final Wine wineBrand) {
     Matrix4 matrix = Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
@@ -196,43 +274,58 @@ class _MyHomePageState extends State<MyHomePage> {
           top: Dimensions.imgConMarginTop200,
           bottom: Dimensions.height10,
         ),
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 5,
-          top: 20,
+        padding: EdgeInsets.only(
+          left: Dimensions.width5,
+          right: Dimensions.width5,
+          bottom: Dimensions.height20,
+          top: Dimensions.height20,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(Dimensions.radius30),
           color: StylesApp.container1Color,
         ),
         child: Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(winebrand.title, style: StylesApp.textStyle2),
-                // const SizedBox(height: 10),
-                Gap(Dimensions.height10),
-                Text(winebrand.price, style: StylesApp.priceStyle),
-                // const SizedBox(height: 10),
-                Gap(Dimensions.height10),
-                Row(
-                  children: [
-                    Wrap(
-                      children: List.generate(
-                        winebrand.rating,
-                        (index) => Icon(FluentSystemIcons.ic_fluent_star_filled,
-                            color: StylesApp.starColor, size: 15),
+            Container(
+              margin: EdgeInsets.only(left: Dimensions.width10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(wineBrand.title, style: StylesApp.textStyle2),
+                  SizedBox(height: Dimensions.height10),
+                  Text(wineBrand.price, style: StylesApp.priceStyle),
+                  SizedBox(height: Dimensions.height10),
+                  Row(
+                    children: [
+                      Wrap(
+                        children: List.generate(
+                          wineBrand.rating,
+                          (index) => Icon(
+                            FluentSystemIcons.ic_fluent_star_filled,
+                            color: StylesApp.starColor,
+                            size: Dimensions.iconSize16,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Gap(Dimensions.height10),
-                Text("Made in ${winebrand.countryOfOrigin}",
-                    style: StylesApp.textStyle4),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: Dimensions.height10),
+                  Text("Made in ${wineBrand.countryOfOrigin}",
+                      style: StylesApp.textStyle4),
+                ],
+              ),
             ),
-            Image.asset(winebrand.imagePath),
+            Container(
+              width: Dimensions.imageContainerWidth,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    wineBrand.imagePath,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

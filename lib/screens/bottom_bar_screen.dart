@@ -1,5 +1,6 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:shazam_vin_project/screens/wine_description_screen.dart';
 
 import 'home_screen.dart';
 
@@ -13,9 +14,11 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedScreen = 0;
   static final List<Widget> _screenOptions = <Widget>[
-    MyHomePage(),
-    const Text('Search'),
-    const Text('Camera'),
+    const SingleChildScrollView(
+      child: MyHomePage(),
+    ),
+    const WineDetailPage1(),
+    const Text("Camera"),
     const Text('Friends'),
     const Text('Profile'),
   ];
@@ -28,9 +31,9 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "current height is: " + MediaQuery.of(context).size.height.toString());
-    print("current width is: " + MediaQuery.of(context).size.width.toString());
+    // print(
+    //     "current height is: " + MediaQuery.of(context).size.height.toString());
+    // print("current width is: " + MediaQuery.of(context).size.width.toString());
     return Scaffold(
       backgroundColor: Colors.white, //const Color(0xffE38B29),
       body: Center(child: _screenOptions[_selectedScreen]),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StylesApp {
   // Color section
   static Color primaryColor = const Color(0xffE38B29);
-  static Color container1Color = const Color(0xFFE8F9FD); //Color(0xFFE8F9FD);
+  static Color container1Color = const Color(0xFFF8F9FD); //Color(0xFFE8F9FD);
   static Color starColor = const Color(0xFF14C38E);
   static Color textColor1 = const Color(0xFFE8F9FD);
   static Color textColor2 = const Color(0xFFF1A661);
@@ -36,4 +36,7 @@ class StylesApp {
 
   static TextStyle searchStyle =
       TextStyle(fontSize: 18, color: textColor1, fontWeight: FontWeight.w300);
+
+  static TextStyle descriptionStyle = TextStyle(
+      color: Colors.grey[500], fontWeight: FontWeight.w800, fontSize: 15);
 }
