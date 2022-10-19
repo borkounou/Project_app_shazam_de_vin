@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Dispose it means if we leave the page we don't want it to be active: otherwise there will be memory leak;
-  // @override
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
