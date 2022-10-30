@@ -21,6 +21,7 @@ dependencies:
   dots_indicator: ^2.1.0
   get: ^4.1.4
   image_picker: ^0.8.6
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +34,7 @@ flutter:
   uses-material-design: true
   assets:
     - wines/
+    - recommended_Wines/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

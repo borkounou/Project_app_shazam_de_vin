@@ -11,6 +11,7 @@ class StylesApp {
   static Color container2Color = const Color(0xFFFFD8A9);
   static Color container3Color = const Color(0xFFFDEEDC);
   static Color bgColor = const Color(0xFFE38B29);
+  static Color buttonBackgroundColor = const Color(0xFFf7f6f4);
 
   // Style section
 

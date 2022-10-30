@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shazam_vin_project/screens/search_screen_details.dart';
 
 import 'package:shazam_vin_project/screens/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xffE38B29),
       ),
       home: const WelcomePage(),
+      // const SearchScreenDetail(),
     );
   }
 }

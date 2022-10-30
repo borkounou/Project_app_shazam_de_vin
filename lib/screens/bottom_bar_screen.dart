@@ -1,8 +1,11 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:shazam_vin_project/screens/search_screen_details.dart';
 import 'package:shazam_vin_project/screens/wine_description_screen.dart';
+import 'package:shazam_vin_project/screens/wine_searcher_result_screen.dart';
 
 import 'home_screen.dart';
+import 'ocr_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -14,13 +17,15 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedScreen = 0;
   static final List<Widget> _screenOptions = <Widget>[
+    const SearchScreenDetail(),
     const SingleChildScrollView(
       child: MyHomePage(),
     ),
     const WineDetailPage1(),
-    const Text("Camera"),
-    const Text('Friends'),
-    const Text('Profile'),
+    // const Text("Camera"),
+    const OcrPageScreen(),
+    const WineSearchResult(),
+    // const Text('Profile'),
   ];
 
   void _iconOnTapped(int index) {

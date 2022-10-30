@@ -7,6 +7,7 @@ import 'package:shazam_vin_project/utils/dimensions.dart';
 import '../data_models/models.dart';
 import '../widgets/bigText.dart';
 import '../widgets/smallText.dart';
+import '../widgets/textExpandableWidget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final wine = wines;
+    final recommended_wine = recommendedWines;
     return Column(
       children: [
         SizedBox(
@@ -158,11 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         SizedBox(height: Dimensions.height5),
         ListView.builder(
-            itemCount: wine.length,
+            itemCount: recommended_wine.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, position) {
-              final Wine wineBrand = wine[position];
+              final Wine wineBrand = recommended_wine[position];
               return Container(
                 margin: EdgeInsets.only(
                   left: Dimensions.width20,
@@ -287,11 +289,18 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           children: [
             Container(
-              margin: EdgeInsets.only(left: Dimensions.width10),
+              height: Dimensions.imgConMarginTop200,
+              width: Dimensions.containerWidth150,
+              margin: EdgeInsets.only(
+                  left: Dimensions.width10, right: Dimensions.width10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(wineBrand.title, style: StylesApp.textStyle2),
+                  // SmallText(
+                  //   text: wineBrand.title,
+                  //   color: StylesApp.textColor3,
+                  // ),
                   SizedBox(height: Dimensions.height10),
                   Text(wineBrand.price, style: StylesApp.priceStyle),
                   SizedBox(height: Dimensions.height10),
@@ -316,8 +325,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Container(
-              width: Dimensions.imageContainerWidth,
+              // width: Dimensions.imageContainerWidth,
+              width: Dimensions.popularImgWidth + Dimensions.width20,
+              height: 230,
+              // width: Dimensions.positionWidth100,
               decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(

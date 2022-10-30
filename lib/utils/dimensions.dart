@@ -56,4 +56,19 @@ class Dimensions {
   static double bottomNavBarContainerHeight = screenHeight / 13.66; //50;
   static double containerLongText = screenHeight / 4.55;
   static double wineDetailContainer = screenWidth / 2.055;
+
+  // Image searche
+  static double positionTopHeight230 = screenHeight / 2.969;
+  static double positionWidth80 = screenWidth / 5.1375;
+  static double positionHeightContainer370 = screenHeight / 1.845;
+  static double positionWidthContainer400 = screenWidth / 1.0275;
+  static double positionWidth100 = screenWidth / 4.11;
+
+  static double searcherContainer270 = screenHeight / 2.5296;
+  static double searcherContainerHeight300 = screenHeight / 2.276666;
+  static double searcherContainerWidth200 = screenWidth / 2.055;
+
+  // Bottom height
+  static double bottomHeightBar = screenHeight / 6.30;
+  static double containerWidth150 = screenWidth / 2.74;
 }

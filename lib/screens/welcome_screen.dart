@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/dimensions.dart';
 import 'bottom_bar_screen.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -30,7 +31,12 @@ class _WelcomePageState extends State<WelcomePage> {
       child: Scaffold(
         backgroundColor: const Color(0xffE38B29),
         body: Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.only(
+            left: Dimensions.width15,
+            right: Dimensions.width15,
+            top: Dimensions.height15,
+            bottom: Dimensions.height15,
+          ), //EdgeInsets.all(16),
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,11 +48,11 @@ class _WelcomePageState extends State<WelcomePage> {
                   scale: 1.5,
                 ),
 
-                const Text(
+                Text(
                   "Elegance et ame de meilleur vin",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: Dimensions.font16,
                     letterSpacing: 5,
                     wordSpacing: 5,
                   ),
