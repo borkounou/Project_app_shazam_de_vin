@@ -1,3 +1,4 @@
+// import 'dart:convert';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -45,13 +46,13 @@ class _OcrPageScreenState extends State<OcrPageScreen> {
   }
 
   getImageFromServer() async {
-    final response =
-        await http.get(Uri.parse("http://ec1e-84-97-93-59.ngrok.io/upload"));
-    // print(response.body);
+    final response = await http.get(Uri.parse("http://10.0.2.2:5000/upload"));
+    print(response.body);
     var decoded = json.decode(response.body) as Map<String, dynamic>;
     // print(decoded["image"]);
-    print(decoded["price"]);
-    print(decoded['description']);
+    // print(decoded["price"]);
+    // print(decoded['description']);
+    // _bytes = const Base64Decoder().convert(decoded["image"]);
     _bytes = const Base64Decoder().convert(decoded["image"]);
     // print(_bytes);
     setState(() {
@@ -62,8 +63,8 @@ class _OcrPageScreenState extends State<OcrPageScreen> {
   }
 
   uploadImage() async {
-    final request = http.MultipartRequest(
-        "POST", Uri.parse("http://ec1e-84-97-93-59.ngrok.io/upload"));
+    final request =
+        http.MultipartRequest("POST", Uri.parse("http://10.0.2.2:5000/upload"));
 
     final headers = {"Content-type": "multipart/form-data"};
 
@@ -129,7 +130,6 @@ class _OcrPageScreenState extends State<OcrPageScreen> {
                   TextButton.icon(
                     onPressed: () {
                       getImageFromServer();
-                      setState(() {});
                     },
                     icon: const Icon(
                       Icons.get_app,
@@ -156,7 +156,7 @@ class _OcrPageScreenState extends State<OcrPageScreen> {
               setState(() {});
             },
             onPressed: () {
-              getImage();
+              getImageFromGallery();
               setState(() {});
             },
             icon: const Icon(

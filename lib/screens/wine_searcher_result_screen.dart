@@ -6,17 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shazam_vin_project/widgets/bigText.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 
 import '../utils/app_styles.dart';
 import '../utils/dimensions.dart';
 import '../widgets/smallText.dart';
 
 class WineSearchResult extends StatefulWidget {
-  const WineSearchResult({Key? key}) : super(key: key);
+  final XFile? image;
+  // Map<String, dynamic>? receivedMap;
+  const WineSearchResult({
+    Key? key,
+    this.image,
+    // this.receivedMap,
+  }) : super(key: key);
 
   @override
-  State<WineSearchResult> createState() => _WineSearchResultState();
+  State<WineSearchResult> createState() => _WineSearchResultState(image);
 }
 
 class _WineSearchResultState extends State<WineSearchResult> {
@@ -27,58 +32,14 @@ class _WineSearchResultState extends State<WineSearchResult> {
   File? selectedImage;
   String message = "";
   bool stateImage = true;
+  XFile? image;
+  // Map<String, dynamic> receivedMap;
 
-  Future getImage() async {
-    XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
-    selectedImage = File(pickedFile!.path);
-
-    setState(() {
-      selectedImage;
-    });
-  }
-
-  Future getImageFromGallery() async {
-    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    selectedImage = File(pickedFile!.path);
-
-    setState(() {
-      selectedImage;
-    });
-  }
-
-  getImageFromServer() async {
-    final response = await http.get(Uri.parse("http://10.0.2.2:5000/upload"));
-    // print(response.body);
-    var decoded = json.decode(response.body) as Map<String, dynamic>;
-    // print(decoded["image"]);
-    _bytes = const Base64Decoder().convert(decoded["image"]);
-    print(_bytes);
-    setState(() {
-      img = Image.memory(_bytes!);
-    });
-    // print(img);
-    // return img;
-  }
-
-  uploadImage() async {
-    final request =
-        http.MultipartRequest("POST", Uri.parse("http://10.0.2.2:5000/upload"));
-
-    final headers = {"Content-type": "multipart/form-data"};
-
-    request.files.add(http.MultipartFile('image',
-        selectedImage!.readAsBytes().asStream(), selectedImage!.lengthSync(),
-        filename: selectedImage!.path.split("/").last));
-    request.headers.addAll(headers);
-    final response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    final resJson = jsonDecode(res.body);
-    message = resJson["message"];
-    setState(() {});
-  }
+  _WineSearchResultState(this.image);
 
   @override
   Widget build(BuildContext context) {
+    // print(receivedMap);
     return Container(
       color: StylesApp.container2Color,
       child: Stack(
@@ -90,7 +51,8 @@ class _WineSearchResultState extends State<WineSearchResult> {
             right: Dimensions.positionWidth80,
             child: Container(
               margin: EdgeInsets.only(bottom: Dimensions.height10),
-              height: Dimensions.positionHeightContainer370,
+              height:
+                  Dimensions.positionHeightContainer370 + Dimensions.height10,
               width: Dimensions.positionWidthContainer400,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -104,11 +66,12 @@ class _WineSearchResultState extends State<WineSearchResult> {
                         left: Dimensions.width20, right: Dimensions.width20),
                     height: Dimensions.searcherContainer270,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.height20),
-                        image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('./wines/background.jpg'))),
+                      borderRadius: BorderRadius.circular(Dimensions.height20),
+                      image: const DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('./wines/background.jpg'),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: Dimensions.height20,
@@ -162,15 +125,23 @@ class _WineSearchResultState extends State<WineSearchResult> {
           Positioned(
             left: Dimensions.positionWidth100,
             right: Dimensions.positionWidth100,
-            top: Dimensions.height10,
+            top: Dimensions.height30,
             child: Container(
-              height: Dimensions.searcherContainerHeight300,
-              width: Dimensions.searcherContainerWidth200,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage('./wines/pin.png')),
-                color: Colors.white,
+              margin: EdgeInsets.only(
+                  left: Dimensions.width20, right: Dimensions.width20),
+              height: Dimensions.searcherContainer270,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: Dimensions.radius100,
+                child: CircleAvatar(
+                  radius: Dimensions.radius100,
+                  backgroundColor: StylesApp.container2Color,
+                  child: ClipOval(
+                    child: (image != null)
+                        ? Image.file(File(image!.path))
+                        : Image.asset('./wines/bckgr_white.jpg'),
+                  ),
+                ),
               ),
             ),
           ),

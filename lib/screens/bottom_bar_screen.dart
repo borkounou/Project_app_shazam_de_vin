@@ -4,6 +4,7 @@ import 'package:shazam_vin_project/screens/search_screen_details.dart';
 import 'package:shazam_vin_project/screens/wine_description_screen.dart';
 import 'package:shazam_vin_project/screens/wine_searcher_result_screen.dart';
 
+import 'camera_screen.dart';
 import 'home_screen.dart';
 import 'ocr_screen.dart';
 
@@ -21,10 +22,10 @@ class _BottomBarState extends State<BottomBar> {
     const SingleChildScrollView(
       child: MyHomePage(),
     ),
-    const WineDetailPage1(),
-    // const Text("Camera"),
     const OcrPageScreen(),
-    const WineSearchResult(),
+    // const Text("Camera"),
+    const CameraScreen(),
+    WineSearchResult(),
     // const Text('Profile'),
   ];
 
